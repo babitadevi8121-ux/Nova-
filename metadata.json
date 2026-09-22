@@ -1,0 +1,6 @@
+{
+  "name": "Nova AI",
+  "description": "A modern, professional AI platform by Shelby.ai, founded by Shivam Kumar, featuring God's Eye 3D View Geospatial Intelligence, 402 Global Database Engines Directory, Universal Firestore Cloud Database, 1,970+ Master AI & Software Systems Directory, video editing suites, glassmorphic chat interfaces, voice inputs, image generation, URL to QR generator studio, and settings dashboards.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

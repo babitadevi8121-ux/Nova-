@@ -1,0 +1,588 @@
+{
+  "users": {
+    "admin-id": {
+      "id": "admin-id",
+      "email": "admin@nova.ai",
+      "name": "Nova Administrator",
+      "passwordHash": "admin123",
+      "role": "Admin",
+      "subscriptionTier": "Super AI",
+      "isUnlimited": true,
+      "createdAt": "2026-09-03T16:32:15.988Z"
+    },
+    "demo-id": {
+      "id": "demo-id",
+      "email": "demo@nova.ai",
+      "name": "Demo User",
+      "passwordHash": "demo123",
+      "role": "User",
+      "subscriptionTier": "Pro",
+      "isUnlimited": false,
+      "createdAt": "2026-09-03T16:32:15.988Z"
+    }
+  },
+  "chats": {
+    "welcome-chat": {
+      "id": "welcome-chat",
+      "userId": "demo-id",
+      "title": "Welcome to Nova AI",
+      "createdAt": "2026-09-03T16:32:15.988Z",
+      "updatedAt": "2026-09-03T16:32:15.988Z",
+      "model": "gemini-3.5-flash",
+      "messages": [
+        {
+          "id": "m1",
+          "role": "user",
+          "content": "What is Nova AI?",
+          "createdAt": "2026-09-03T16:32:15.988Z"
+        },
+        {
+          "id": "m2",
+          "role": "assistant",
+          "content": "Welcome! **Nova AI** is a cutting-edge, glassmorphic artificial intelligence assistant. I can help you with language translation, advanced code generation with syntax highlighting, complex reasoning, and image generation. Feel free to ask me anything or upload text/image files to get started!",
+          "createdAt": "2026-09-03T16:32:15.988Z"
+        }
+      ]
+    },
+    "chat-mz1v7qcvf": {
+      "id": "chat-mz1v7qcvf",
+      "userId": "admin-id",
+      "title": "Test Verification Chat",
+      "createdAt": "2026-09-03T17:31:38.952Z",
+      "updatedAt": "2026-09-06T06:40:11.162Z",
+      "model": "gemini-3.8-flash",
+      "messages": [
+        {
+          "id": "msg-qxlq27",
+          "role": "user",
+          "content": "Say \"Nova System Online\"",
+          "createdAt": "2026-09-03T17:31:42.217Z"
+        },
+        {
+          "id": "msg-gnbws",
+          "role": "assistant",
+          "content": "Nova System Online. \n\nGreetings. I am Nova AI, your sophisticated interface for information, analysis, and creative problem-solving. How may I assist you today?",
+          "createdAt": "2026-09-03T17:31:51.853Z"
+        },
+        {
+          "id": "msg-w217wa",
+          "role": "user",
+          "content": "Hello, test message.",
+          "createdAt": "2026-09-06T06:35:42.086Z"
+        },
+        {
+          "id": "msg-8qeksd",
+          "role": "assistant",
+          "content": "Nova System Online.\n\nHello! It is a pleasure to meet you. I am Nova AI, and I am fully operational and ready to assist you. Whether you require complex problem-solving, creative writing, technical analysis, or simply a thoughtful conversation, I am at your service.\n\nHow may I assist you today?",
+          "createdAt": "2026-09-06T06:35:46.770Z"
+        },
+        {
+          "id": "msg-t5kds6",
+          "role": "user",
+          "content": "Explain QuickSort in TypeScript with code",
+          "createdAt": "2026-09-06T06:40:04.240Z"
+        },
+        {
+          "id": "msg-0kpbm",
+          "role": "assistant",
+          "content": "Greetings. It is a pleasure to assist you. \n\n**QuickSort** is an extraordinarily efficient, comparison-based, divide-and-conquer sorting algorithm. Developed by British computer scientist Tony Hoare in 1959, it remains one of the most widely utilized sorting algorithms in modern computing.\n\n---\n\n### The Underlying Mechanics\n\nQuickSort operates on a simple yet profound premise:\n\n1. **Pivot Selection:** Choose an element from the array to act as the *pivot*.\n2. **Partitioning:** Rearrange the array such that:\n   - All elements less than the pivot reside on its left.\n   - All elements greater than the pivot reside on its right.\n   - The pivot occupies its final, sorted position.\n3. **Recursive Step:** Recursively apply the preceding steps to the sub-arrays to the left and right of the pivot until the entire collection is sorted.\n\n---\n\n### Implementation in TypeScript\n\nBelow is an elegant, in-place implementation utilizing TypeScript generics and the classic **Lomuto partition scheme**.\n\n```typescript\n/**\n * Swaps two elements in an array in-place.\n */\nfunction swap<T>(arr: T[], i: number, j: number): void {\n  const temp = arr[i];\n  arr[i] = arr[j];\n  arr[j] = temp;\n}\n\n/**\n * Partitions the array around a pivot element.\n * Elements <= pivot are moved to the left; elements > pivot to the right.\n *\n * @param arr - The array to be partitioned.\n * @param low - Starting index of the partition range.\n * @param high - Ending index of the partition range.\n * @returns The final index of the pivot.\n */\nfunction partition<T>(\n  arr: T[],\n  low: number,\n  high: number,\n  compare: (a: T, b: T) => number\n): number {\n  // Choose the rightmost element as the pivot\n  const pivot = arr[high];\n  let i = low - 1;\n\n  for (let j = low; j < high; j++) {\n    // If the current element is smaller than or equal to the pivot\n    if (compare(arr[j], pivot) <= 0) {\n      i++;\n      swap(arr, i, j);\n    }\n  }\n\n  // Place the pivot in its correct sorted position\n  swap(arr, i + 1, high);\n  return i + 1;\n}\n\n/**\n * The internal recursive QuickSort function.\n */\nfunction quickSortInternal<T>(\n  arr: T[],\n  low: number,\n  high: number,\n  compare: (a: T, b: T) => number\n): void {\n  if (low < high) {\n    // pi is the partitioning index; arr[pi] is now in the correct place\n    const pi = partition(arr, low, high, compare);\n\n    // Recursively sort elements before and after partition\n    quickSortInternal(arr, low, pi - 1, compare);\n    quickSortInternal(arr, pi + 1, high, compare);\n  }\n}\n\n/**\n * Public QuickSort API. Sorts an array in-place.\n *\n * @param array - The array to sort.\n * @param compare - An optional comparator function (defaults to standard '<' / '>' comparison).\n * @returns The sorted array reference.\n */\nexport function quickSort<T>(\n  array: T[],\n  compare: (a: T, b: T) => number = (a, b) => (a < b ? -1 : a > b ? 1 : 0)\n): T[] {\n  if (array.length <= 1) return array;\n  quickSortInternal(array, 0, array.length - 1, compare);\n  return array;\n}\n```\n\n---\n\n### Demonstration & Usage\n\n```typescript\n// Example 1: Sorting numbers\nconst numbers = [64, 25, 12, 22, 11, 90, 1];\nconsole.log(\"Original:\", numbers);\nquickSort(numbers);\nconsole.log(\"Sorted:\", numbers);\n// Output: [1, 11, 12, 22, 25, 64, 90]\n\n// Example 2: Sorting custom objects with a comparator\ninterface User {\n  name: string;\n  age: number;\n}\n\nconst users: User[] = [\n  { name: \"Ada\", age: 36 },\n  { name: \"Alan\", age: 41 },\n  { name: \"Grace\", age: 85 },\n  { name: \"Claude\", age: 28 },\n];\n\nquickSort(users, (a, b) => a.age - b.age);\nconsole.log(\"Sorted by age:\", users);\n```\n\n---\n\n### Algorithmic Complexity\n\n| Metric | Complexity | Notes |\n| :--- | :--- | :--- |\n| **Best Case Time** | $\\mathcal{O}(n \\log n)$ | Occurs when the pivot consistently partitions the array into balanced halves. |\n| **Average Case Time** | $\\mathcal{O}(n \\log n)$ | Typical performance across random permutations. |\n| **Worst Case Time** | $\\mathcal{O}(n^2)$ | Occurs when the pivot is consistently the minimum or maximum element (e.g., already sorted array with naive pivot selection). |\n| **Space Complexity** | $\\mathcal{O}(\\log n)$ | Auxiliary call stack space for recursion (in-place). |\n\n*Optimization Note:* To mitigate the $\\mathcal{O}(n^2)$ worst-case scenario in production environments, it is recommended to implement a **median-of-three** pivot selection or randomized pivot selection.\n\nIf you require any further optimizations, alternative partition schemes, or visual trace diagrams, please let me know.",
+          "createdAt": "2026-09-06T06:40:11.159Z"
+        }
+      ]
+    }
+  },
+  "notifications": {
+    "demo-id": [
+      {
+        "id": "n1",
+        "title": "Welcome to Nova Pro",
+        "content": "Your account has been successfully upgraded to the Pro tier. Enjoy unlimited high-speed generations and code suggestions!",
+        "type": "success",
+        "createdAt": "2026-09-03T16:32:15.988Z",
+        "isRead": false
+      }
+    ],
+    "admin-id": [
+      {
+        "id": "tier-up-sawj7n",
+        "title": "Subscription Active: Nova Super AI",
+        "content": "Your subscription tier has been set to Super AI. Enjoy your new privileges!",
+        "type": "success",
+        "createdAt": "2026-09-11T15:23:28.792Z",
+        "isRead": false
+      },
+      {
+        "id": "tier-up-b4263",
+        "title": "Subscription Active: Nova Super AI",
+        "content": "Your subscription tier has been set to Super AI. Enjoy your new privileges!",
+        "type": "success",
+        "createdAt": "2026-09-03T17:00:36.297Z",
+        "isRead": false
+      },
+      {
+        "id": "n2",
+        "title": "System Operational",
+        "content": "All API nodes are functioning at 100% capacity.",
+        "type": "info",
+        "createdAt": "2026-09-03T16:32:15.988Z",
+        "isRead": false
+      }
+    ],
+    "stu-user-1788676677377": [
+      {
+        "id": "notif-6xya1hb",
+        "title": "🎓 Student Lifetime Free Pass Activated!",
+        "content": "Congratulations! Passcode STU-FREE-2026-8121 was successfully redeemed. You now have permanent 100% Free Lifetime Access ($0) across all 70+ AI models, GPU compute, and specialized IDEs.",
+        "type": "success",
+        "createdAt": "2026-09-06T06:37:57.378Z",
+        "isRead": false
+      }
+    ]
+  },
+  "systemLogs": [
+    {
+      "id": "ksf2s",
+      "timestamp": "2026-09-11T15:35:23.427Z",
+      "level": "error",
+      "message": "ChatGPT API error: API request timed out"
+    },
+    {
+      "id": "bfmpco",
+      "timestamp": "2026-09-11T15:35:14.425Z",
+      "level": "info",
+      "message": "ChatGPT conversation turn requested by User admin-id with model chatgpt-6-astra"
+    },
+    {
+      "id": "nhllmt",
+      "timestamp": "2026-09-11T15:35:11.016Z",
+      "level": "info",
+      "message": "Nova AI Platform listening on port 3000"
+    },
+    {
+      "id": "pdr2bo",
+      "timestamp": "2026-09-11T15:35:11.015Z",
+      "level": "info",
+      "message": "Vite Dev Server integrated."
+    },
+    {
+      "id": "hfkun",
+      "timestamp": "2026-09-11T15:35:10.488Z",
+      "level": "info",
+      "message": "Vector Database initialized successfully with gemini-embedding-2-preview."
+    },
+    {
+      "id": "qbdc1o",
+      "timestamp": "2026-09-11T15:35:10.476Z",
+      "level": "info",
+      "message": "Gemini client initialized successfully."
+    },
+    {
+      "id": "cylvsp",
+      "timestamp": "2026-09-11T15:34:32.821Z",
+      "level": "error",
+      "message": "ChatGPT API error: API request timed out"
+    },
+    {
+      "id": "hlefz",
+      "timestamp": "2026-09-11T15:34:23.819Z",
+      "level": "info",
+      "message": "ChatGPT conversation turn requested by User guest with model chatgpt-6-astra"
+    },
+    {
+      "id": "xidzkf",
+      "timestamp": "2026-09-11T15:34:13.372Z",
+      "level": "info",
+      "message": "Nova AI Platform listening on port 3000"
+    },
+    {
+      "id": "a1wtpd",
+      "timestamp": "2026-09-11T15:34:13.371Z",
+      "level": "info",
+      "message": "Vite Dev Server integrated."
+    },
+    {
+      "id": "iabwfl",
+      "timestamp": "2026-09-11T15:34:12.801Z",
+      "level": "info",
+      "message": "Vector Database initialized successfully with gemini-embedding-2-preview."
+    },
+    {
+      "id": "2rw6fm",
+      "timestamp": "2026-09-11T15:34:12.791Z",
+      "level": "info",
+      "message": "Gemini client initialized successfully."
+    },
+    {
+      "id": "ap2jwk",
+      "timestamp": "2026-09-11T15:33:18.245Z",
+      "level": "info",
+      "message": "ChatGPT conversation turn requested by User guest with model chatgpt-6-astra"
+    },
+    {
+      "id": "nip7h",
+      "timestamp": "2026-09-11T15:32:36.417Z",
+      "level": "info",
+      "message": "ChatGPT conversation turn requested by User guest with model chatgpt-6-astra"
+    },
+    {
+      "id": "85q8kb",
+      "timestamp": "2026-09-11T15:31:22.088Z",
+      "level": "info",
+      "message": "Nova AI Platform listening on port 3000"
+    },
+    {
+      "id": "swiv0a",
+      "timestamp": "2026-09-11T15:31:22.086Z",
+      "level": "info",
+      "message": "Vite Dev Server integrated."
+    },
+    {
+      "id": "npe03",
+      "timestamp": "2026-09-11T15:31:21.806Z",
+      "level": "info",
+      "message": "Vector Database initialized successfully with gemini-embedding-2-preview."
+    },
+    {
+      "id": "qy8la8",
+      "timestamp": "2026-09-11T15:31:21.796Z",
+      "level": "info",
+      "message": "Gemini client initialized successfully."
+    },
+    {
+      "id": "9kfwd",
+      "timestamp": "2026-09-11T15:23:28.793Z",
+      "level": "info",
+      "message": "Special Admin Login executed for admin@nova.ai using code: admin123"
+    },
+    {
+      "id": "ndgxg",
+      "timestamp": "2026-09-11T15:23:28.790Z",
+      "level": "info",
+      "message": "User admin@nova.ai role updated to Admin"
+    },
+    {
+      "id": "xutiq",
+      "timestamp": "2026-09-11T15:10:37.796Z",
+      "level": "info",
+      "message": "Nova AI Platform listening on port 3000"
+    },
+    {
+      "id": "3lc4sg",
+      "timestamp": "2026-09-11T15:10:37.789Z",
+      "level": "info",
+      "message": "Vite Dev Server integrated."
+    },
+    {
+      "id": "yfq2qf",
+      "timestamp": "2026-09-11T15:10:37.505Z",
+      "level": "info",
+      "message": "Vector Database initialized successfully with gemini-embedding-2-preview."
+    },
+    {
+      "id": "poss19",
+      "timestamp": "2026-09-11T15:10:32.029Z",
+      "level": "info",
+      "message": "Gemini client initialized successfully."
+    },
+    {
+      "id": "zo653n",
+      "timestamp": "2026-09-06T06:40:04.242Z",
+      "level": "info",
+      "message": "User admin-id requested stream in chat chat-mz1v7qcvf using gemini-3.8-flash. RAG: false"
+    },
+    {
+      "id": "wsxe6f",
+      "timestamp": "2026-09-06T06:40:01.573Z",
+      "level": "info",
+      "message": "Nova AI Platform listening on port 3000"
+    },
+    {
+      "id": "f8n6lp",
+      "timestamp": "2026-09-06T06:40:01.572Z",
+      "level": "info",
+      "message": "Vite Dev Server integrated."
+    },
+    {
+      "id": "lbtafl",
+      "timestamp": "2026-09-06T06:40:01.254Z",
+      "level": "info",
+      "message": "Vector Database initialized successfully with gemini-embedding-2-preview."
+    },
+    {
+      "id": "rvkix",
+      "timestamp": "2026-09-06T06:40:01.245Z",
+      "level": "info",
+      "message": "Gemini client initialized successfully."
+    },
+    {
+      "id": "a4zbf",
+      "timestamp": "2026-09-06T06:38:40.883Z",
+      "level": "warn",
+      "message": "imagen-3.0-generate-002 fallback error: {\"error\":{\"code\":404,\"message\":\"models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.\",\"status\":\"NOT_FOUND\"}}"
+    },
+    {
+      "id": "jyh9bn",
+      "timestamp": "2026-09-06T06:38:40.774Z",
+      "level": "warn",
+      "message": "Image model gemini-3.1-flash-lite-image encountered: {\"error\":{\"code\":429,\"message\":\"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-lite-image\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-lite-image\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-lite-image\\nPlease retry in 19.232574979s.\",\"status\":\"RESOURCE_EXHAUSTED\",\"details\":[{\"@type\":\"type.googleapis.com/google.rpc.Help\",\"links\":[{\"description\":\"Learn more about Gemini API quotas\",\"url\":\"https://ai.google.dev/gemini-api/docs/rate-limits\"}]},{\"@type\":\"type.googleapis.com/google.rpc.QuotaFailure\",\"violations\":[{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count\",\"quotaId\":\"GenerateContentInputTokensPerModelPerMinute-FreeTier\",\"quotaDimensions\":{\"location\":\"global\",\"model\":\"gemini-3.1-flash-lite-image\"}},{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_requests\",\"quotaId\":\"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\",\"quotaDimensions\":{\"location\":\"global\",\"model\":\"gemini-3.1-flash-lite-image\"}},{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_requests\",\"quotaId\":\"GenerateRequestsPerDayPerProjectPerModel-FreeTier\",\"quotaDimensions\":{\"model\":\"gemini-3.1-flash-lite-image\",\"location\":\"global\"}}]},{\"@type\":\"type.googleapis.com/google.rpc.RetryInfo\",\"retryDelay\":\"19s\"}]}}. Trying next fallback..."
+    },
+    {
+      "id": "bw2p7r",
+      "timestamp": "2026-09-06T06:38:40.644Z",
+      "level": "warn",
+      "message": "Image model gemini-3.1-flash-image encountered: {\"error\":{\"code\":429,\"message\":\"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image\\nPlease retry in 19.365735707s.\",\"status\":\"RESOURCE_EXHAUSTED\",\"details\":[{\"@type\":\"type.googleapis.com/google.rpc.Help\",\"links\":[{\"description\":\"Learn more about Gemini API quotas\",\"url\":\"https://ai.google.dev/gemini-api/docs/rate-limits\"}]},{\"@type\":\"type.googleapis.com/google.rpc.QuotaFailure\",\"violations\":[{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count\",\"quotaId\":\"GenerateContentInputTokensPerModelPerMinute-FreeTier\",\"quotaDimensions\":{\"location\":\"global\",\"model\":\"gemini-3.1-flash-image\"}},{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_requests\",\"quotaId\":\"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\",\"quotaDimensions\":{\"location\":\"global\",\"model\":\"gemini-3.1-flash-image\"}},{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_requests\",\"quotaId\":\"GenerateRequestsPerDayPerProjectPerModel-FreeTier\",\"quotaDimensions\":{\"model\":\"gemini-3.1-flash-image\",\"location\":\"global\"}}]},{\"@type\":\"type.googleapis.com/google.rpc.RetryInfo\",\"retryDelay\":\"19s\"}]}}. Trying next fallback..."
+    },
+    {
+      "id": "zbbvo",
+      "timestamp": "2026-09-06T06:38:40.524Z",
+      "level": "info",
+      "message": "User admin-id generating image: \"Futuristic cybernetic interface in deep neon violet and cyan\" [16:9] [1K]"
+    },
+    {
+      "id": "5kkev",
+      "timestamp": "2026-09-06T06:37:57.379Z",
+      "level": "info",
+      "message": "Student Passcode STU-FREE-2026-8121 redeemed by student@academic.edu (stu-user-1788676677377). Lifetime Free AI Access activated."
+    },
+    {
+      "id": "g7uszh",
+      "timestamp": "2026-09-06T06:37:20.002Z",
+      "level": "info",
+      "message": "Nova AI Platform listening on port 3000"
+    },
+    {
+      "id": "folw4",
+      "timestamp": "2026-09-06T06:37:20.000Z",
+      "level": "info",
+      "message": "Vite Dev Server integrated."
+    },
+    {
+      "id": "8aheds",
+      "timestamp": "2026-09-06T06:37:19.704Z",
+      "level": "info",
+      "message": "Vector Database initialized successfully with gemini-embedding-2-preview."
+    },
+    {
+      "id": "uo3w",
+      "timestamp": "2026-09-06T06:37:19.694Z",
+      "level": "info",
+      "message": "Gemini client initialized successfully."
+    },
+    {
+      "id": "xhi9b9q",
+      "timestamp": "2026-09-06T06:35:42.087Z",
+      "level": "info",
+      "message": "User admin-id requested stream in chat chat-mz1v7qcvf using gemini-3.8-flash. RAG: false"
+    },
+    {
+      "id": "59363j",
+      "timestamp": "2026-09-06T06:34:02.097Z",
+      "level": "info",
+      "message": "Nova AI Platform listening on port 3000"
+    },
+    {
+      "id": "4acww9",
+      "timestamp": "2026-09-06T06:34:02.096Z",
+      "level": "info",
+      "message": "Vite Dev Server integrated."
+    },
+    {
+      "id": "axog1cn",
+      "timestamp": "2026-09-06T06:34:01.687Z",
+      "level": "info",
+      "message": "Vector Database initialized successfully with gemini-embedding-2-preview."
+    },
+    {
+      "id": "ea8hl",
+      "timestamp": "2026-09-06T06:33:56.278Z",
+      "level": "info",
+      "message": "Gemini client initialized successfully."
+    },
+    {
+      "id": "ihch5i",
+      "timestamp": "2026-09-03T17:32:14.512Z",
+      "level": "info",
+      "message": "User admin-id searching book information for: \"Sapiens Yuval Noah Harari\""
+    },
+    {
+      "id": "fyss7",
+      "timestamp": "2026-09-03T17:31:58.498Z",
+      "level": "warn",
+      "message": "imagen-3.0-generate-002 fallback error: {\"error\":{\"code\":404,\"message\":\"models/imagen-3.0-generate-002 is not found for API version v1beta, or is not supported for predict. Call ModelService.ListModels to see the list of available models and their supported methods.\",\"status\":\"NOT_FOUND\"}}"
+    },
+    {
+      "id": "vqjoio",
+      "timestamp": "2026-09-03T17:31:58.387Z",
+      "level": "warn",
+      "message": "Image model gemini-3.1-flash-lite-image encountered: {\"error\":{\"code\":429,\"message\":\"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-lite-image\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-lite-image\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-lite-image\\nPlease retry in 1.622441152s.\",\"status\":\"RESOURCE_EXHAUSTED\",\"details\":[{\"@type\":\"type.googleapis.com/google.rpc.Help\",\"links\":[{\"description\":\"Learn more about Gemini API quotas\",\"url\":\"https://ai.google.dev/gemini-api/docs/rate-limits\"}]},{\"@type\":\"type.googleapis.com/google.rpc.QuotaFailure\",\"violations\":[{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_requests\",\"quotaId\":\"GenerateRequestsPerDayPerProjectPerModel-FreeTier\",\"quotaDimensions\":{\"location\":\"global\",\"model\":\"gemini-3.1-flash-lite-image\"}},{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_requests\",\"quotaId\":\"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\",\"quotaDimensions\":{\"location\":\"global\",\"model\":\"gemini-3.1-flash-lite-image\"}},{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count\",\"quotaId\":\"GenerateContentInputTokensPerModelPerMinute-FreeTier\",\"quotaDimensions\":{\"location\":\"global\",\"model\":\"gemini-3.1-flash-lite-image\"}}]},{\"@type\":\"type.googleapis.com/google.rpc.RetryInfo\",\"retryDelay\":\"1s\"}]}}. Trying next fallback..."
+    },
+    {
+      "id": "11ve6h",
+      "timestamp": "2026-09-03T17:31:58.277Z",
+      "level": "warn",
+      "message": "Image model gemini-3.1-flash-image encountered: {\"error\":{\"code\":429,\"message\":\"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-3.1-flash-image\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-3.1-flash-image\\nPlease retry in 1.73421037s.\",\"status\":\"RESOURCE_EXHAUSTED\",\"details\":[{\"@type\":\"type.googleapis.com/google.rpc.Help\",\"links\":[{\"description\":\"Learn more about Gemini API quotas\",\"url\":\"https://ai.google.dev/gemini-api/docs/rate-limits\"}]},{\"@type\":\"type.googleapis.com/google.rpc.QuotaFailure\",\"violations\":[{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_requests\",\"quotaId\":\"GenerateRequestsPerDayPerProjectPerModel-FreeTier\",\"quotaDimensions\":{\"location\":\"global\",\"model\":\"gemini-3.1-flash-image\"}},{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_requests\",\"quotaId\":\"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\",\"quotaDimensions\":{\"location\":\"global\",\"model\":\"gemini-3.1-flash-image\"}},{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_input_token_count\",\"quotaId\":\"GenerateContentInputTokensPerModelPerMinute-FreeTier\",\"quotaDimensions\":{\"location\":\"global\",\"model\":\"gemini-3.1-flash-image\"}}]},{\"@type\":\"type.googleapis.com/google.rpc.RetryInfo\",\"retryDelay\":\"1s\"}]}}. Trying next fallback..."
+    },
+    {
+      "id": "3tg2sb",
+      "timestamp": "2026-09-03T17:31:58.137Z",
+      "level": "info",
+      "message": "User admin-id generating image: \"A minimalist glowing blue neon circle on obsidian dark background\" [1:1] [1K]"
+    },
+    {
+      "id": "90n7pd",
+      "timestamp": "2026-09-03T17:31:42.218Z",
+      "level": "info",
+      "message": "User admin-id requested stream in chat chat-mz1v7qcvf using gemini-3.8-flash. RAG: false"
+    },
+    {
+      "id": "43v7p",
+      "timestamp": "2026-09-03T17:30:56.417Z",
+      "level": "info",
+      "message": "Nova AI Platform listening on port 3000"
+    },
+    {
+      "id": "bn35ft",
+      "timestamp": "2026-09-03T17:30:56.416Z",
+      "level": "info",
+      "message": "Vite Dev Server integrated."
+    },
+    {
+      "id": "n2awt",
+      "timestamp": "2026-09-03T17:30:56.113Z",
+      "level": "info",
+      "message": "Vector Database initialized successfully with gemini-embedding-2-preview."
+    },
+    {
+      "id": "af3nrk",
+      "timestamp": "2026-09-03T17:30:56.103Z",
+      "level": "info",
+      "message": "Gemini client initialized successfully."
+    },
+    {
+      "id": "sxgb9",
+      "timestamp": "2026-09-03T17:04:45.241Z",
+      "level": "info",
+      "message": "Nova AI Platform listening on port 3000"
+    },
+    {
+      "id": "z5zdpj",
+      "timestamp": "2026-09-03T17:04:45.240Z",
+      "level": "info",
+      "message": "Vite Dev Server integrated."
+    },
+    {
+      "id": "z2mc1",
+      "timestamp": "2026-09-03T17:04:44.937Z",
+      "level": "info",
+      "message": "Vector Database initialized successfully with gemini-embedding-2-preview."
+    },
+    {
+      "id": "zwn9ki",
+      "timestamp": "2026-09-03T17:04:44.928Z",
+      "level": "info",
+      "message": "Gemini client initialized successfully."
+    },
+    {
+      "id": "rcfx7m",
+      "timestamp": "2026-09-03T17:00:36.297Z",
+      "level": "info",
+      "message": "Special Admin Login executed for admin@nova.ai using code: admin123"
+    },
+    {
+      "id": "1ohige",
+      "timestamp": "2026-09-03T17:00:36.296Z",
+      "level": "info",
+      "message": "User admin@nova.ai role updated to Admin"
+    },
+    {
+      "id": "ebtzzp",
+      "timestamp": "2026-09-03T16:50:41.003Z",
+      "level": "info",
+      "message": "Nova AI Platform listening on port 3000"
+    },
+    {
+      "id": "d1r0rd",
+      "timestamp": "2026-09-03T16:50:41.002Z",
+      "level": "info",
+      "message": "Vite Dev Server integrated."
+    },
+    {
+      "id": "ee25z",
+      "timestamp": "2026-09-03T16:50:40.667Z",
+      "level": "info",
+      "message": "Vector Database initialized successfully with gemini-embedding-2-preview."
+    },
+    {
+      "id": "uhd98d",
+      "timestamp": "2026-09-03T16:50:40.658Z",
+      "level": "info",
+      "message": "Gemini client initialized successfully."
+    },
+    {
+      "id": "haiuxc",
+      "timestamp": "2026-09-03T16:32:21.839Z",
+      "level": "info",
+      "message": "Nova AI Platform listening on port 3000"
+    },
+    {
+      "id": "25csi",
+      "timestamp": "2026-09-03T16:32:21.838Z",
+      "level": "info",
+      "message": "Vite Dev Server integrated."
+    },
+    {
+      "id": "cfimck",
+      "timestamp": "2026-09-03T16:32:21.552Z",
+      "level": "info",
+      "message": "Vector Database initialized successfully with gemini-embedding-2-preview."
+    },
+    {
+      "id": "vip1pk",
+      "timestamp": "2026-09-03T16:32:15.994Z",
+      "level": "info",
+      "message": "Gemini client initialized successfully."
+    },
+    {
+      "id": "l1",
+      "timestamp": "2026-09-03T16:32:15.988Z",
+      "level": "info",
+      "message": "Database initialized successfully."
+    },
+    {
+      "id": "l2",
+      "timestamp": "2026-09-03T16:32:15.988Z",
+      "level": "info",
+      "message": "Admin and Demo accounts seeded."
+    }
+  ],
+  "analytics": {
+    "demo-id": {
+      "userId": "demo-id",
+      "userEmail": "demo@nova.ai",
+      "chatsCount": 1,
+      "messagesCount": 2,
+      "imagesGenerated": 4,
+      "tokensUsed": 1540
+    }
+  },
+  "studentPasses": {
+    "stu-pass-init-1": {
+      "id": "stu-pass-init-1",
+      "code": "STU-FREE-2026-8121",
+      "studentName": "Verified Student / Educator",
+      "institution": "Global Academic & Research Network",
+      "issuedBy": "Shivam Kumar (Founder & CEO)",
+      "createdAt": "2026-09-06T06:37:53.000Z",
+      "expiresAt": "Lifetime Free ($0)",
+      "status": "redeemed",
+      "passType": "Scholarship",
+      "notes": "Official 100% Free Lifetime Access Grant across all 70+ AI models & GPU clusters.",
+      "redeemedBy": {
+        "userId": "stu-user-1788676677377",
+        "userName": "Student User",
+        "userEmail": "student@academic.edu",
+        "redeemedAt": "2026-09-06T06:37:57.378Z"
+      }
+    }
+  }
+}

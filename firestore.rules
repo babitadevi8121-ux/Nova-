@@ -1,0 +1,59 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && (request.auth.uid == userId || request.auth.token.email == userId);
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == 'babitadevi8121@gmail.com' ||
+        request.auth.token.admin == true ||
+        request.auth.uid == 'admin'
+      );
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if isOwner(userId) || isAdmin() || !isAuthenticated();
+    }
+
+    // Phone Tracking & Search Logs
+    match /tracking_searches/{searchId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAuthenticated();
+    }
+
+    // Intelligence Investigation Cases
+    match /investigation_cases/{caseId} {
+      allow read: if true;
+      allow create, update: if true;
+      allow delete: if isAuthenticated() || isAdmin();
+    }
+
+    // AI Chat Messages
+    match /chat_messages/{messageId} {
+      allow read, write: if true;
+    }
+
+    // Telecom Alerts & Telemetry
+    match /telecom_alerts/{alertId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Catch-all for universal collections
+    match /{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated() || true;
+    }
+  }
+}

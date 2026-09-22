@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "users": {
+      "description": "User profiles, roles, and credit balance",
+      "fields": {
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "credits": { "type": "number" },
+        "plan": { "type": "string" },
+        "role": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "tracking_searches": {
+      "description": "Real-time phone number, BTS cell tower, and GPS tracking logs",
+      "fields": {
+        "userId": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "ipAddress": { "type": "string" },
+        "carrier": { "type": "string" },
+        "country": { "type": "string" },
+        "city": { "type": "string" },
+        "region": { "type": "string" },
+        "circleName": { "type": "string" },
+        "lat": { "type": "number" },
+        "lon": { "type": "number" },
+        "formattedFullAddress": { "type": "string" },
+        "btsTowerLocation": { "type": "string" },
+        "mscNode": { "type": "string" },
+        "signalStrength": { "type": "string" },
+        "riskScore": { "type": "number" },
+        "simSwapRisk": { "type": "string" },
+        "spamRating": { "type": "string" },
+        "aiSummary": { "type": "string" },
+        "timestamp": { "type": "string" }
+      }
+    },
+    "investigation_cases": {
+      "description": "Saved telecom intelligence dossiers and case files",
+      "fields": {
+        "userId": { "type": "string" },
+        "caseTitle": { "type": "string" },
+        "targetNumber": { "type": "string" },
+        "carrier": { "type": "string" },
+        "notes": { "type": "string" },
+        "priority": { "type": "string" },
+        "status": { "type": "string" },
+        "tags": { "type": "array" },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "chat_messages": {
+      "description": "Real-time AI OSINT chat messages with Shelby AI Assistant",
+      "fields": {
+        "userId": { "type": "string" },
+        "sender": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string" }
+      }
+    },
+    "telecom_alerts": {
+      "description": "Real-time telecom fraud, SIM swap alerts, and security logs",
+      "fields": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "type": { "type": "string" },
+        "severity": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string" }
+      }
+    }
+  }
+}
