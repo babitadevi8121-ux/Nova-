@@ -42,6 +42,8 @@ import NovaBannerHero from './components/NovaBannerHero';
 import SuperAICatalog from './components/SuperAICatalog';
 import { RealtimeAIHealthDashboard } from './components/RealtimeAIHealthDashboard';
 import GodsEye3DView from './components/GodsEye3DView';
+import OsintIntelligenceHub from './components/OsintIntelligenceHub';
+import HdVectorCard from './components/HdVectorCard';
 import ToastContainer from './components/ToastContainer';
 import { getSuperAiTool } from './data/superAiToolsData';
 import { auth } from './firebase';
@@ -879,6 +881,18 @@ export default function App() {
               onOpenAuth={() => setIsAuthOpen(true)}
               onOpenPricing={() => handleOpenPricing('plans')}
               onSelectTab={(tab) => setActiveTab(tab)}
+            />
+          </div>
+        ) : activeTab === 'osint' || activeTab === 'recon' || activeTab === 'osint-tools' ? (
+          <div className="flex-1 overflow-y-auto p-4 sm:p-8 bg-[#060A1D]">
+            <OsintIntelligenceHub />
+          </div>
+        ) : activeTab === 'vector_card' || activeTab === 'vector-card' || activeTab === 'hd-card' ? (
+          <div className="flex-1 overflow-y-auto p-4 sm:p-8 bg-[#040715]">
+            <HdVectorCard 
+              appUrl="https://nova-ai-3603.ai.studio" 
+              onOpenAuth={() => setIsAuthOpen(true)}
+              onOpenPricing={() => handleOpenPricing('plans')}
             />
           </div>
         ) : activeTab === 'gods-eye' || activeTab === 'gods-eye-view' || activeTab === 'godseye' ? (

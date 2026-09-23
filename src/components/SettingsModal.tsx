@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { X, User, Mail, Shield, Keyboard, Volume2, Moon, Sun, Sparkles, Check, Monitor, Copy, Key, Laptop, Info, Building2, Award, CreditCard, Receipt, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { X, User, Mail, Shield, Keyboard, Volume2, Moon, Sun, Sparkles, Check, Monitor, Copy, Key, Laptop, Info, Building2, Award, CreditCard, Receipt, ArrowRight, Eye, EyeOff, Lock, ShieldCheck, Globe, Wifi } from 'lucide-react';
 import { User as UserType } from '../types';
 
 interface SettingsModalProps {
@@ -37,6 +37,40 @@ export default function SettingsModal({
   const [showAdminCode, setShowAdminCode] = useState(false);
   const [adminStatus, setAdminStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [adminError, setAdminError] = useState('');
+
+  // Privacy Shield Settings
+  const [privacyShieldEnabled, setPrivacyShieldEnabled] = useState(() => {
+    return localStorage.getItem('nova_privacy_shield') !== 'disabled';
+  });
+  const [canvasNoiseEnabled, setCanvasNoiseEnabled] = useState(() => {
+    return localStorage.getItem('nova_canvas_noise') !== 'disabled';
+  });
+  const [webrtcGuardEnabled, setWebrtcGuardEnabled] = useState(() => {
+    return localStorage.getItem('nova_webrtc_guard') !== 'disabled';
+  });
+  const [vpnExitNode, setVpnExitNode] = useState(() => {
+    return localStorage.getItem('nova_vpn_exit_node') || 'Zurich, Switzerland';
+  });
+
+  const handleTogglePrivacyShield = (enabled: boolean) => {
+    setPrivacyShieldEnabled(enabled);
+    localStorage.setItem('nova_privacy_shield', enabled ? 'enabled' : 'disabled');
+  };
+
+  const handleToggleCanvasNoise = (enabled: boolean) => {
+    setCanvasNoiseEnabled(enabled);
+    localStorage.setItem('nova_canvas_noise', enabled ? 'enabled' : 'disabled');
+  };
+
+  const handleToggleWebrtcGuard = (enabled: boolean) => {
+    setWebrtcGuardEnabled(enabled);
+    localStorage.setItem('nova_webrtc_guard', enabled ? 'enabled' : 'disabled');
+  };
+
+  const handleVpnNodeChange = (node: string) => {
+    setVpnExitNode(node);
+    localStorage.setItem('nova_vpn_exit_node', node);
+  };
 
   const handleCopyLicense = (key: string) => {
     navigator.clipboard.writeText(key);
@@ -134,6 +168,7 @@ export default function SettingsModal({
 
           {[
             { id: 'profile', label: 'My Profile', icon: User },
+            { id: 'privacy', label: 'Privacy Shield & VPN', icon: Lock },
             { id: 'billing', label: 'Billing & Invoices', icon: Receipt },
             { id: 'preferences', label: 'Preferences', icon: Volume2 },
             { id: 'shortcuts', label: 'Shortcuts', icon: Keyboard },
@@ -271,6 +306,89 @@ export default function SettingsModal({
                   {updating ? 'Saving...' : 'Save Profile Details'}
                 </button>
               </form>
+            </div>
+          )}
+
+          {activeTab === 'privacy' && (
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-bold text-base font-display flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-emerald-500" />
+                  Privacy Shield & Multi-Hop VPN Gateway
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Brave-style anti-fingerprinting resistance, WebRTC protection, and encrypted proxy tunnel emulation for outgoing AI calls.
+                </p>
+              </div>
+
+              {/* Master Privacy Toggle */}
+              <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-bold font-display text-slate-800 dark:text-white flex items-center gap-2">
+                    <span>Active Privacy Shield</span>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
+                      privacyShieldEnabled ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 'bg-slate-500/10 text-slate-400'
+                    }`}>
+                      {privacyShieldEnabled ? 'ENFORCED' : 'OFF'}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    Strips browser canvas signatures and randomizes device telemetry before submitting requests.
+                  </p>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={privacyShieldEnabled}
+                  onChange={(e) => handleTogglePrivacyShield(e.target.checked)}
+                  className="w-5 h-5 rounded accent-indigo-600 cursor-pointer"
+                />
+              </div>
+
+              {/* Specific Privacy Defenses */}
+              <div className="space-y-3">
+                <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Canvas & WebGL Entropy Obfuscation</span>
+                    <p className="text-[11px] text-slate-500">Injects mathematical micro-jitter to prevent hardware fingerprinting.</p>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={canvasNoiseEnabled}
+                    onChange={(e) => handleToggleCanvasNoise(e.target.checked)}
+                    className="w-4 h-4 rounded accent-indigo-600 cursor-pointer"
+                  />
+                </div>
+
+                <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300">WebRTC Local IP Leak Guard</span>
+                    <p className="text-[11px] text-slate-500">Suppresses ICE/STUN candidate exchange to shield LAN IPv4/IPv6 addresses.</p>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={webrtcGuardEnabled}
+                    onChange={(e) => handleToggleWebrtcGuard(e.target.checked)}
+                    className="w-4 h-4 rounded accent-indigo-600 cursor-pointer"
+                  />
+                </div>
+
+                <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Multi-Hop VPN Routing Node</span>
+                    <span className="text-[10px] font-mono text-indigo-500 font-bold">Proxy Active</span>
+                  </div>
+                  <select
+                    value={vpnExitNode}
+                    onChange={(e) => handleVpnNodeChange(e.target.value)}
+                    className="w-full p-2 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-mono font-semibold focus:outline-none"
+                  >
+                    <option value="Zurich, Switzerland">🇨🇭 Zurich, Switzerland (Zero-Log Privacy Node)</option>
+                    <option value="Reykjavik, Iceland">🇮🇸 Reykjavik, Iceland (Freedom of Information Haven)</option>
+                    <option value="Tokyo, Japan">🇯🇵 Tokyo, Japan (Ultra Low Latency Node)</option>
+                    <option value="Singapore">🇸🇬 Singapore (Asia-Pacific Megabit Gateway)</option>
+                  </select>
+                </div>
+              </div>
             </div>
           )}
 

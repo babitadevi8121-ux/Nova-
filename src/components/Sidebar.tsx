@@ -1352,6 +1352,54 @@ export default function Sidebar({
             </span>
           </button>
 
+          {/* OSINT Recon Suite */}
+          <button
+            onClick={() => onSetActiveTab('osint')}
+            className={`w-full min-h-[46px] p-2.5 rounded-xl border transition-all text-left flex items-center justify-between gap-3 cursor-pointer group ${
+              activeTab === 'osint' || activeTab === 'recon'
+                ? 'bg-cyan-50 dark:bg-cyan-950/40 border-cyan-300 dark:border-cyan-800 text-cyan-600 dark:text-cyan-300 shadow-sm'
+                : 'bg-white/60 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-800/80 border-slate-200/70 dark:border-white/5 text-slate-700 dark:text-slate-200'
+            }`}
+            title="OSINT Recon Suite - Sherlock, SpiderFoot, Shodan, Maltego, Recon-ng & Creepy"
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-lg bg-cyan-500/10 dark:bg-cyan-900/40 flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-4 h-4 text-cyan-500" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-bold truncate">OSINT Recon Suite</p>
+                <p className="text-[10px] text-slate-600 dark:text-slate-400 truncate">Sherlock · Shodan · Maltego</p>
+              </div>
+            </div>
+            <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 font-mono font-bold">
+              RECON
+            </span>
+          </button>
+
+          {/* HD Vector Card */}
+          <button
+            onClick={() => onSetActiveTab('vector_card')}
+            className={`w-full min-h-[46px] p-2.5 rounded-xl border transition-all text-left flex items-center justify-between gap-3 cursor-pointer group ${
+              activeTab === 'vector_card' || activeTab === 'vector-card'
+                ? 'bg-purple-50 dark:bg-purple-950/40 border-purple-300 dark:border-purple-800 text-purple-600 dark:text-purple-300 shadow-sm'
+                : 'bg-white/60 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-800/80 border-slate-200/70 dark:border-white/5 text-slate-700 dark:text-slate-200'
+            }`}
+            title="HD Vector Card & App URL Portal"
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-lg bg-purple-500/10 dark:bg-purple-900/40 flex items-center justify-center shrink-0">
+                <QrCode className="w-4 h-4 text-purple-500" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-bold truncate">HD Vector Card</p>
+                <p className="text-[10px] text-slate-600 dark:text-slate-400 truncate">nova-ai-3603.ai.studio</p>
+              </div>
+            </div>
+            <span className="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/15 text-purple-600 dark:text-purple-400 font-mono font-bold">
+              PORTAL
+            </span>
+          </button>
+
           {/* Number Tracker */}
           <button
             onClick={() => onSetActiveTab('number-tracker')}
